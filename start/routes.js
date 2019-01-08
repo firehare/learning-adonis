@@ -18,20 +18,11 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 
-Route.get('/posts', 'PostController.index')
-Route.post('/posts', () => 'Post has been created')
-Route.get('/posts/:id', ({
-  params
-}) => {
-  return `You're watching post ${ params.id }`
-})
-Route.patch('/posts/:id', ({
-  params
-}) => {
-  return `Post ${params.id} has been updated.`
-})
-Route.delete('/posts/:id', ({
-  params
-}) => {
-  return `Post ${params.id} has been removed.`
-})
+Route.resource('posts', 'PostController')
+//Route.get('/posts', 'PostController.index')
+// Route.get('/posts/create','PostController.create')
+// Route.post('/posts', 'PostController.store')
+// Route.get('/posts/:id', 'PostController.show')
+// Route.get('/posts/:id/edit','PostController.edit')
+// Route.patch('/posts/:id', 'PostController.update')
+// Route.delete('/posts/:id', 'PostController.destory')
