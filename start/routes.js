@@ -26,3 +26,31 @@ Route.resource('posts', 'PostController')
 // Route.get('/posts/:id/edit','PostController.edit')
 // Route.patch('/posts/:id', 'PostController.update')
 // Route.delete('/posts/:id', 'PostController.destory')
+
+// Route
+//   .get('/users', () => 'List of users.')
+//   .as('users.index')
+
+Route
+  .get('/users', ({ request }) => {
+    switch (request.format()) {
+      case 'json':
+        return [
+          { name: 'wanghao' },
+          { name: 'xiaoxue' }
+        ]
+      default:
+        return `
+        - wanghao
+        - xiaoxue
+      `
+    }
+  })
+  .formats(['json', 'html'], true)
+
+  Route
+  .group( () => {
+    Route.get('users',() => 'Manage users')
+    Route.get('posts', () => 'Manage posts')
+  } )
+  .prefix('admin')
