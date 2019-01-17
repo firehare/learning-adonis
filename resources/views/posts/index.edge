@@ -6,17 +6,9 @@
 @endsection
 
 @section('content')
-@each(entity in entities)
-  <div>
-    <small>
-      {{ $loop.index + 1 }}
-    first: <i>{{ $loop.first }}</i>
-    last: <i>{{ $loop.last }}</i>
-    total: <i>{{ $loop.total }}</i>    
-    odd: <i>{{ $loop.isOdd }}</i>
-    even: <i>{{ $loop.isEven }}</i>    
-    </small>
-      {{ entity.title }}: {{ entity.content }}
-  </div>
-@endeach
+  @component('components.list', { entities, border: true, borderColor: '#ddeaf2' })
+    @slot('notes')
+      <small>Eat some fruits & vegetables everyday is good for your health.</small>
+    @endslot
+  @endcomponent
 @endsection
