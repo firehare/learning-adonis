@@ -1,11 +1,11 @@
+@layout('layouts.main')
+
+@section('header')
+{{--  @super  --}}
 <h1>{{ pageTitle || 'Untitled' }}</h1>
+@endsection
 
-@if( user.name )
-{{ user.name }}
-@else
-Login / Signup
-@endif
-
+@section('content')
 @each(entity in entities)
   <div>
     <small>
@@ -19,3 +19,4 @@ Login / Signup
       {{ entity.title }}: {{ entity.content }}
   </div>
 @endeach
+@endsection
