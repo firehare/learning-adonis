@@ -47,6 +47,7 @@ class PostController {
     const newPost = request.only(['title', 'content'])
     const postID = await Database.insert(newPost).into('posts')
 
+    return response.redirect(`/posts/${ postID[0] }`)
   }
 
   /**
@@ -59,6 +60,9 @@ class PostController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const post = await Database.from('posts').where('id', params.id).first()
+
+    return view.render('post.show', { post })
   }
 
   /**
@@ -71,6 +75,9 @@ class PostController {
    * @param {View} ctx.view
    */
   async edit ({ params, request, response, view }) {
+    const post = await Database.from('posts').where('id', params.id).first()
+    
+    return view.render('post.edit', { post })
   }
 
   /**
@@ -82,6 +89,11 @@ class PostController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const updatedPost = request.only(['title', 'content'])
+    await Database.table('posts').where('id', params.id).update(updatedPost)
+
+    return response.redirect(`/posts/${params.id}`)
+
   }
 
   /**
@@ -93,6 +105,9 @@ class PostController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    await Database.table('posts').where('id', params.id).delete()
+
+    return 'success'
   }
 }
 
