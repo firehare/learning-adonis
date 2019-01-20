@@ -15,6 +15,9 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
+const Profile = use('App/Models/Profile')
 
 Route.on('/').render('welcome')
 Route.resource('/posts', 'PostController')
+Route.resource('/users','UserController')
+Route.resource('/profiles', 'ProfileController')
