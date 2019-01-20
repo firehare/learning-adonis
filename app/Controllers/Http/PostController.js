@@ -22,6 +22,12 @@ class PostController {
    */
   async index ({ request, response, view }) {
     const posts =await  Post.all()
+
+
+    return view.render('posts.index', {
+      posts: posts.toJSON()
+    })
+
   }
 
   /**
@@ -34,6 +40,7 @@ class PostController {
    * @param {View} ctx.view
    */
   async create ({ request, response, view }) {
+    return view.render('posts.create')
   }
 
   /**
@@ -45,6 +52,10 @@ class PostController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const newPost = request.only(['title', 'content'])
+    const post = await Post.create(newPost)
+
+    return response.redirect(`/posts/${post.id}`)
   }
 
   /**
@@ -57,6 +68,11 @@ class PostController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const post = await Post.findOrFail(params.id)
+
+    return view.render('posts.show',{
+      post: post.toJSON()
+    })
   }
 
   /**
@@ -69,6 +85,12 @@ class PostController {
    * @param {View} ctx.view
    */
   async edit ({ params, request, response, view }) {
+    const post = await Post.find(params.id)
+
+    return view.render('posts.edit', {
+      post: post.toJSON()
+    })
+
   }
 
   /**
@@ -80,6 +102,12 @@ class PostController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const updatedPost = request.only(['title','content'])
+    const post = await Post.findOrFail(params.id)
+    post.merge(updatedPost)
+    await post.save()
+
+    return response.redirect(`/posts/${post.id}`)
   }
 
   /**
@@ -91,6 +119,9 @@ class PostController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const post = await Post.findOrFail(params.id)
+    await post.delete()
+    return 'success'
   }
 }
 
